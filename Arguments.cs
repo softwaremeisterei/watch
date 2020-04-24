@@ -12,7 +12,7 @@ namespace Lib
     {
         private readonly Regex OptPattern = new Regex(@"--?(?'Opt'[a-zA-Z]+)=(?'Val'.*)");
         private Dictionary<string, string> dic = new Dictionary<string, string>();
-        private List<string> parameters = new List<string>();
+        private List<string> tail = new List<string>();
 
         public Arguments(string[] args)
         {
@@ -40,7 +40,7 @@ namespace Lib
 
         public string[] Tail()
         {
-            return parameters.ToArray();
+            return tail.ToArray();
         }
 
         public override string ToString()
@@ -51,9 +51,9 @@ namespace Lib
                 sb.AppendLine(string.Format("-{0}={1}", keyValue.Key, keyValue.Value));
             }
 
-            if (parameters.Any())
+            if (tail.Any())
             {
-                sb.AppendLine(string.Format("Params: {0}", string.Join(" ", parameters)));
+                sb.AppendLine(string.Format("Tail: {0}", string.Join(" ", tail)));
             }
 
             return sb.ToString();
@@ -74,7 +74,7 @@ namespace Lib
                 }
                 else
                 {
-                    parameters.Add(arg);
+                    tail.Add(arg);
                 }
             }
         }
