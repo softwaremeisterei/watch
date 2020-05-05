@@ -48,14 +48,17 @@ namespace WatchFiles
         {
             Console.WriteLine("file change detected: {0}", ev.Name);
 
-            var command = action.Split(' ').First();
-            var arguments = string.Join(" ", action.Split(' ').Skip(1));
-            Console.WriteLine("  starting command: {0} with arguments: {1}", command, arguments);
-
-            var psi = new ProcessStartInfo(command, arguments);
-            psi.UseShellExecute = false;
-            Process.Start(psi);
-
+            if (action != null)
+            {
+                var command = action.Split(' ').First();
+                var arguments = string.Join(" ", action.Split(' ').Skip(1));
+                Console.WriteLine($"starting command: {command} with arguments: {arguments}");
+                var startInfo = new ProcessStartInfo(command, arguments)
+                {
+                    UseShellExecute = false
+                };
+                Process.Start(startInfo);
+            }
         }
 
     }

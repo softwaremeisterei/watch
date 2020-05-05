@@ -10,7 +10,7 @@ namespace Lib
     /// </summary>
     public class Arguments
     {
-        private readonly Regex OptPattern = new Regex(@"--?(?'Opt'[a-zA-Z]+)=(?'Val'.*)");
+        private readonly Regex OptPattern = new Regex(@"((--?)|/)(?'Opt'[a-zA-Z]+)(=(?'Val'.*))?");
         private Dictionary<string, string> dic = new Dictionary<string, string>();
         private List<string> tail = new List<string>();
 
@@ -33,6 +33,12 @@ namespace Lib
             return result;
         }
 
+        public bool Exists(string opt)
+        {
+            string OPT = opt.ToLower();
+
+            return dic.ContainsKey(OPT);
+        }
         public string[] Opts()
         {
             return dic.Keys.ToList().ToArray();

@@ -1,6 +1,7 @@
 ﻿using Lib;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace WatchFiles
 {
@@ -11,31 +12,38 @@ namespace WatchFiles
 
         static void Main(string[] args)
         {
+            Console.WriteLine($"WATCH {Assembly.GetExecutingAssembly().GetName().Version.ToString(2)} (c) 2019 softwaremeisterei");
+            Console.WriteLine();
+
             if (ParseArgs(args))
             {
                 new Watcher(filesMask, action).Start();
+                RunUntilEscape();
             }
-
-            RunUntilEscape();
         }
 
         private static void RunUntilEscape()
         {
-            Console.Out.WriteLine("<press escape to exit>");
-            ConsoleKeyInfo keyPressed;
-            do
-            {
-                keyPressed = Console.ReadKey(true);
-            } while (keyPressed.Key != ConsoleKey.Escape);
+            Console.Out.WriteLine($"file watcher started for file mask: {filesMask}");
+            Console.Out.WriteLine("press <esc> to exit");
 
-            Console.Out.WriteLine("bye");
+            while (Console.ReadKey(true).Key != ConsoleKey.Escape) { }
         }
 
         private static bool ParseArgs(string[] args)
         {
             var arguments = new Arguments(args);
 
-            filesMask = arguments.Consume("files");
+            if (arguments.Exists("?") ||
+                arguments.Exists("h") ||
+                arguments.Exists("h") ||
+                arguments.Exists("help"))
+            {
+                PrintUsage();
+                return false;
+            }
+
+            filesMask = arguments.Consume("files") ?? "*.*";
             action = arguments.Consume("action");
 
             var badOptions = arguments.Opts();
@@ -49,18 +57,26 @@ namespace WatchFiles
                 return false;
             }
 
-            string[] tail = arguments.Tail();
+            var tail = arguments.Tail();
 
             if (tail.Any())
             {
                 foreach (var arg in tail)
                 {
-                    Console.Error.WriteLine("bad arguments: {0}", arg);
+                    Console.Error.WriteLine("bad argument: {0}", arg);
                 }
+
                 return false;
             }
 
             return true;
+        }
+
+        private static void PrintUsage()
+        {
+            Console.WriteLine("Usage: WATCH [-files=<filemask>] [-action=<command>]");
+            Console.WriteLine("     <filemask> ... a file mask, e.g. *.txt (defaults to *.*)");
+            Console.WriteLine("     <command>  ... command line command to start on any file change, e.g. do-something.bat (defaults to nothing)");
         }
     }
 }
