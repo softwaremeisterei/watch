@@ -18,11 +18,11 @@ namespace WatchFiles
             if (ParseArgs(args))
             {
                 new Watcher(filesMask, action).Start();
-                RunUntilEscape();
+                RunUntilEscaped();
             }
         }
 
-        private static void RunUntilEscape()
+        private static void RunUntilEscaped()
         {
             Console.Out.WriteLine($"file watcher started for file mask: {filesMask}");
             Console.Out.WriteLine("press <esc> to exit");
@@ -64,7 +64,6 @@ namespace WatchFiles
                 {
                     Console.Error.WriteLine("bad argument: {0}", arg);
                 }
-
                 return false;
             }
 

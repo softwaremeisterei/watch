@@ -13,7 +13,7 @@ namespace WatchFiles
         private readonly string filesMask;
         private readonly string action;
 
-        private BehaviorSubject<FileSystemEventArgs> fileChangedSubject = new BehaviorSubject<FileSystemEventArgs>(null);
+        private readonly BehaviorSubject<FileSystemEventArgs> fileChangedSubject = new BehaviorSubject<FileSystemEventArgs>(null);
 
         public Watcher(string filesMask, string action)
         {
