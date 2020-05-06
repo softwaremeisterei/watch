@@ -39,6 +39,7 @@ namespace Lib
 
             return dic.ContainsKey(OPT);
         }
+
         public string[] Opts()
         {
             return dic.Keys.ToList().ToArray();

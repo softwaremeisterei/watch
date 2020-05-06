@@ -50,8 +50,9 @@ namespace WatchFiles
 
             if (action != null)
             {
-                var command = action.Split(' ').First();
-                var arguments = string.Join(" ", action.Split(' ').Skip(1));
+                var parts = action.Split(' ');
+                var command = parts.First();
+                var arguments = string.Join(" ", parts.Skip(1));
                 Console.WriteLine($"starting command: {command} with arguments: {arguments}");
                 var startInfo = new ProcessStartInfo(command, arguments)
                 {

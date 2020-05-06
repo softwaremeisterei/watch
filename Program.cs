@@ -36,7 +36,6 @@ namespace WatchFiles
 
             if (arguments.Exists("?") ||
                 arguments.Exists("h") ||
-                arguments.Exists("h") ||
                 arguments.Exists("help"))
             {
                 PrintUsage();
