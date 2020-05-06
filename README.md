@@ -1,4 +1,4 @@
-## WATCH - Windows File System Watcher
+## WATCH - Windows File System Watcher, written in C# (Console)
 
 Usage: WATCH [-files=*filemask*] [-action=*command*]
   
